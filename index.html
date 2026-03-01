@@ -293,10 +293,27 @@ const NOUNS = [
   "gigasinaptikkoridor","xenoplazmakalkanı","nullvektörsürücü","darkfotonmatris","antimorfnexus"
 ];
 
-function randomName() {
-  const a = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
-  const n = NOUNS[Math.floor(Math.random() * NOUNS.length)];
-  return a + " " + n;
+async function getFingerprint() {
+  const raw = [
+    navigator.userAgent,
+    navigator.language,
+    screen.width + "x" + screen.height,
+    screen.colorDepth,
+    new Date().getTimezoneOffset(),
+    navigator.hardwareConcurrency,
+    navigator.deviceMemory || 0,
+    navigator.platform
+  ].join("|");
+  const encoded = new TextEncoder().encode(raw);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+function nameFromHash(hash) {
+  const ai = parseInt(hash.slice(0, 8), 16) % ADJECTIVES.length;
+  const ni = parseInt(hash.slice(8, 16), 16) % NOUNS.length;
+  return ADJECTIVES[ai] + " " + NOUNS[ni];
 }
 
 function escapeHtml(str) {
@@ -338,8 +355,11 @@ const app = initializeApp(firebaseConfig);
 const db  = getDatabase(app);
 const entriesRef = ref(db, "entries");
 
-const userName = randomName();
 document.getElementById("baslik-text").textContent = BASLIK;
+
+// Parmak izinden sabit isim üret
+const fingerprint = await getFingerprint();
+const userName = nameFromHash(fingerprint);
 document.getElementById("author-label").textContent = userName;
 document.getElementById("status").textContent = "●  bağlandı";
 
