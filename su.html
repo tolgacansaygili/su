@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SuyaYaz</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f0e8;
+    --border: #c8b89a;
+    --text: #2a2018;
+    --muted: #8a7560;
+    --accent: #5c7a3e;
+    --accent2: #c0392b;
+    --entry-bg: #faf7f0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--text);
+    color: var(--bg);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    height: 52px;
+    border-bottom: 3px solid var(--accent);
+  }
+
+  header .logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--bg);
+    text-decoration: none;
+  }
+
+  header .logo span { color: #82c341; }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .baslik-box {
+    background: var(--entry-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .baslik-box h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-transform: lowercase;
+  }
+
+  .baslik-box .meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .count-bar {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .count-bar::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .entries { display: flex; flex-direction: column; }
+
+  .entry {
+    background: var(--entry-bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 1rem 1.5rem;
+    animation: fadeIn 0.25s ease;
+  }
+
+  .entry:first-child { border-top: 1px solid var(--border); }
+  .entry:hover { background: #fff; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .entry-text { font-size: 0.93rem; line-height: 1.65; }
+
+  .entry-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
+  .entry-author {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .entry-time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-family: 'IBM Plex Mono', monospace;
+    border: 1px dashed var(--border);
+    background: var(--entry-bg);
+  }
+
+  .write-section {
+    margin-top: 2.5rem;
+    background: var(--entry-bg);
+    border: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .write-section label {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .write-section label span { color: var(--accent); font-weight: 500; }
+
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+
+  textarea:focus { border-color: var(--accent); }
+
+  .write-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+  }
+
+  .char-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .char-count.warn { color: var(--accent2); }
+
+  button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0.55rem 1.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  button:hover { background: #4a6530; }
+  button:disabled { background: var(--border); cursor: default; }
+
+  .status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">Suya<span>Yaz</span></a>
+</header>
+
+<div class="container">
+  <div class="baslik-box">
+    <h1 id="baslik-text">yapay zeka gerçekten düşünebilir mi?</h1>
+    <div class="meta">günün başlığı · herkes anonim</div>
+  </div>
+
+  <div class="count-bar" id="count-bar">bağlanıyor...</div>
+  <div class="entries" id="entries-container"></div>
+
+  <div class="write-section">
+    <label>entry yaz — <span id="author-label">...</span> olarak</label>
+    <textarea id="input" rows="3" maxlength="200" placeholder="düşüncelerini yaz... (max. 200 karakter)"></textarea>
+    <div class="write-bottom">
+      <span class="char-count" id="char-count">0 / 200</span>
+      <button id="send-btn" disabled>gönder</button>
+    </div>
+  </div>
+  <div class="status" id="status">●  firebase'e bağlanıyor</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast, remove, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA_bqxSIAzOsOpBUMDe2ZE5nEeFe1cSAdc",
+  authDomain: "suyayaz-efd16.firebaseapp.com",
+  databaseURL: "https://suyayaz-efd16-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "suyayaz-efd16",
+  storageBucket: "suyayaz-efd16.firebasestorage.app",
+  messagingSenderId: "276480698612",
+  appId: "1:276480698612:web:78385be40872a7b07456a1"
+};
+
+const BASLIK = "yapay zeka gerçekten düşünebilir mi?";
+const MAX_ENTRIES = 10;
+
+const ADJECTIVES = ["sessiz","meraklı","şüpheci","huzurlu","çılgın","uysal","kararlı","tuhaf","sakin","acı","yorgun","neşeli","kızgın","mütevazi","çevik","solgun","derin","yavaş","keskin","nazik"];
+const NOUNS = ["martı","kedi","ağaç","nehir","bulut","taş","çiçek","yıldız","köprü","orman","deniz","dağ","sokak","ay","çay","kapı","rüzgar","gölge","ışık","toprak"];
+
+function randomName() {
+  const a = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
+  const n = NOUNS[Math.floor(Math.random() * NOUNS.length)];
+  return a + " " + n;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function formatTime(ts) {
+  return new Date(ts).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+}
+
+function render(entries) {
+  const container = document.getElementById("entries-container");
+  const countBar  = document.getElementById("count-bar");
+
+  countBar.textContent = entries.length + " entry";
+
+  if (entries.length === 0) {
+    container.innerHTML = '<div class="empty-state">henüz entry yok. ilk yazan sen ol.</div>';
+    return;
+  }
+
+  container.innerHTML = "";
+  // Show oldest first (entries array is oldest→newest from firebase query)
+  entries.forEach(e => {
+    const div = document.createElement("div");
+    div.className = "entry";
+    div.innerHTML =
+      `<div class="entry-text">${escapeHtml(e.text)}</div>
+       <div class="entry-footer">
+         <span class="entry-author">${escapeHtml(e.author)}</span>
+         <span class="entry-time">${formatTime(e.ts)}</span>
+       </div>`;
+    container.appendChild(div);
+  });
+}
+
+// Init Firebase
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+const entriesRef = ref(db, "entries");
+
+const userName = randomName();
+document.getElementById("baslik-text").textContent = BASLIK;
+document.getElementById("author-label").textContent = userName;
+document.getElementById("status").textContent = "●  bağlandı";
+
+// Listen for changes in real-time (last MAX_ENTRIES by timestamp)
+const q = query(entriesRef, orderByChild("ts"), limitToLast(MAX_ENTRIES));
+
+onValue(q, (snapshot) => {
+  const entries = [];
+  snapshot.forEach(child => {
+    entries.push({ key: child.key, ...child.val() });
+  });
+  render(entries);
+  document.getElementById("status").textContent = "●  canlı";
+});
+
+async function addEntry(text) {
+  // Push new entry
+  await push(entriesRef, { text, author: userName, ts: Date.now() });
+
+  // Trim to MAX_ENTRIES: fetch all, delete oldest if over limit
+  const allSnap = await get(query(entriesRef, orderByChild("ts")));
+  const all = [];
+  allSnap.forEach(child => all.push({ key: child.key, ts: child.val().ts }));
+
+  if (all.length > MAX_ENTRIES) {
+    const toDelete = all.slice(0, all.length - MAX_ENTRIES);
+    await Promise.all(toDelete.map(e => remove(ref(db, "entries/" + e.key))));
+  }
+}
+
+// UI
+const textarea  = document.getElementById("input");
+const sendBtn   = document.getElementById("send-btn");
+const charCount = document.getElementById("char-count");
+
+textarea.addEventListener("input", () => {
+  const len = textarea.value.length;
+  charCount.textContent = len + " / 200";
+  charCount.classList.toggle("warn", len > 170);
+  sendBtn.disabled = len === 0;
+});
+
+sendBtn.addEventListener("click", async () => {
+  const text = textarea.value.trim();
+  if (!text) return;
+  sendBtn.disabled = true;
+  textarea.value = "";
+  charCount.textContent = "0 / 200";
+  charCount.classList.remove("warn");
+  await addEntry(text);
+});
+
+textarea.addEventListener("keydown", e => {
+  if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) sendBtn.click();
+});
+</script>
+</body>
+</html>
