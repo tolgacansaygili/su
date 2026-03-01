@@ -230,9 +230,9 @@
 
   <div class="write-section">
     <label>entry yaz — <span id="author-label">...</span> olarak</label>
-    <textarea id="input" rows="3" maxlength="200" placeholder="düşüncelerini yaz... (max. 200 karakter)"></textarea>
+    <textarea id="input" rows="3" maxlength="30" placeholder="düşüncelerini yaz... (max. 30 karakter)"></textarea>
     <div class="write-bottom">
-      <span class="char-count" id="char-count">0 / 200</span>
+      <span class="char-count" id="char-count">0 / 30</span>
       <button id="send-btn" disabled>gönder</button>
     </div>
   </div>
@@ -375,8 +375,8 @@ const charCount = document.getElementById("char-count");
 
 textarea.addEventListener("input", () => {
   const len = textarea.value.length;
-  charCount.textContent = len + " / 200";
-  charCount.classList.toggle("warn", len > 170);
+  charCount.textContent = len + " / 30";
+  charCount.classList.toggle("warn", len > 20);
   sendBtn.disabled = len === 0;
 });
 
@@ -385,7 +385,7 @@ sendBtn.addEventListener("click", async () => {
   if (!text) return;
   sendBtn.disabled = true;
   textarea.value = "";
-  charCount.textContent = "0 / 200";
+  charCount.textContent = "0 / 30";
   charCount.classList.remove("warn");
   await addEntry(text);
 });
