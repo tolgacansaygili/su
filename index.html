@@ -256,8 +256,40 @@ const firebaseConfig = {
 const BASLIK = "yapay zeka gerçekten düşünebilir mi?";
 const MAX_ENTRIES = 10;
 
-const ADJECTIVES = ["sessiz","meraklı","şüpheci","huzurlu","çılgın","uysal","kararlı","tuhaf","sakin","acı","yorgun","neşeli","kızgın","mütevazi","çevik","solgun","derin","yavaş","keskin","nazik"];
-const NOUNS = ["martı","kedi","ağaç","nehir","bulut","taş","çiçek","yıldız","köprü","orman","deniz","dağ","sokak","ay","çay","kapı","rüzgar","gölge","ışık","toprak"];
+const ADJECTIVES = [
+  "kuantum","nöral","kriptik","sentetik","fraktal","mutant","holografik","biyonik","kaotik","latent",
+  "foton","siborg","reaktif","anomal","dijital","paralel","viral","tektonik","kozmik","axiomatik",
+  "plazmatik","nötrino","katalistik","subatomik","biyosentetik","hiperbolik","transonik","radyoaktif",
+  "nanometrik","terabaytlık","kriptojenik","stealth","antimadde","kuazarsal","nebüler","galaktik",
+  "kronojenik","psionik","mitokondrik","sembolyotik","genoforik","sibernetik","transhümanist","elektrik",
+  "kuantize","eksosferik","multidimensyonel","biyolüminesan","nanohibrit","hiperkoyun","spekülomik",
+  "astrotektonik","plazmoid","kronotopik","voidsal","xenojenik","darkmatterik","singülöz","omegasal",
+  "alphavektör","betatransit","deltafazlı","gammaçekirdek","omikronsal","zetakatmanlı","thetadalgalı",
+  "ionize","subfonik","hypervoid","ultraklonik","megasibernik","gigafrekansik","teravoltalı","petamatriksel",
+  "exoplanetik","nükleonik","sinapsal","axionik","tachyonik","warpsal","kriptomorfik","termokronik",
+  "biyoplazmatik","nanokortikal","spintronic","holomatrik","rezonantik","kuantumsal","eksosomatik",
+  "infrasonik","ultravoidal","megajenetik","nanokriptik","terabiyotik","gigasinapsal","exoreaktif",
+  "multikronik","hiperplazmonik","subkuantik","ultrasiborg","meganosal","gigafraktal","xenoplazmatik",
+  "nullvektör","voidkriptik","darkfoton","antimorfik"
+];
+
+const NOUNS = [
+  "androyd","nöron","reaktör","portal","matris","klon","nexus","proton","sinapsis","orbital",
+  "kusar","replikant","singülarite","nanobot","hipersürücü","biohive","kronosfar","darkmater","voidcore","xenoform",
+  "warpçekirdek","plazmakanon","nörolinkör","exodrive","antimadde","kronotürbin","nanomesh","biosensor",
+  "kuantumağ","siberkoridor","tetrisözü","holodeck","megastrüktür","plasmakalkan","bioreaktor","darkportal",
+  "voidtüneli","astrokapı","xenobiyom","multiversal","omegaçekirdek","deltahücre","gammatürbin","betanexus",
+  "alphasürücü","zetaağı","thetamatris","omikronklon","psionikkalkan","tachyonsüreci","ionkılıcı",
+  "nükleokoridor","spintronikhücre","holomatriksor","rezonansağ","axionikportal","exosomatikform",
+  "nanokorteks","bioplazma","termokron","kriptomorf","warpbariyer","xenomorf","nullvektör","voidmatris",
+  "darkfotonçekirdeği","antimorfpilot","sibergölge","plazmagölge","nörokalkan","kronoçözücü","exokapı",
+  "bioküme","multitüneli","hiperdalgası","subfonikpulsar","ultraklonhücresi","megasibertürbin","gigamatris",
+  "terasibernik","petavoidçekirdeği","exoplanetbağı","nükleosferası","sinapstüneli","axionfrekansı",
+  "tachyondalgası","warpnoktası","kriptobiyom","termovoid","biyoplazmaağı","nanosiberkorteks",
+  "spintronikmatris","holografiizdüşümü","rezonansçekirdeği","kuantumsüreklilik","eksosomatikform",
+  "infrasonikpulsar","ultravoidkapı","megajenetikmatris","nanokriptikağ","terabiyotikhücre",
+  "gigasinaptikkoridor","xenoplazmakalkanı","nullvektörsürücü","darkfotonmatris","antimorfnexus"
+];
 
 function randomName() {
   const a = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
